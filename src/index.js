@@ -37,27 +37,28 @@ function calculateAll() {
 // ITERATION 4
 
 function removeProduct(event) {
-  console.log('button remove clicked')
   const target = event.currentTarget;
   console.log('The target in remove is:', target);
   //... your code goes here
   const getParent = target.parentNode.parentNode
-  console.log('getParent')
-  console.log(getParent)
-  
   const cloneProduct = getParent.cloneNode(true);
-  console.log('cloneProduct')
-  console.log(cloneProduct)
   
   const resetQuantity = cloneProduct.querySelector('.quantity input')
   resetQuantity.value = 0
-  
-  const productParent = document.querySelector('#cart tbody')
+
+  const getTableBody = target.parentNode.parentNode.parentNode
 
 
   getParent.parentNode.removeChild(getParent)
-  
-  getParent.parentNode.appendChild(cloneProduct)
+  getTableBody.appendChild(cloneProduct)
+
+  // add event listener to listen to the recently appended <tr>
+  // or else the new products will not be identified by the click event listener within the 'load' event listener
+
+  const removeNewButtons = document.querySelectorAll('.btn-remove');
+  removeNewButtons.forEach(button => {
+    button.addEventListener('click', removeProduct);
+  })
 
   calculateAll()
 }
